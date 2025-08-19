@@ -12,11 +12,13 @@
                                 <div class="footer-widget about-widget">
                                     <div class="footer-logo">
                                         <figure>
-                                            <a href="index-2.html"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/footer-logo.png" alt=""></a>
+                                            <a href="<?php echo esc_url( home_url( '/' ) ); ?>">
+                                                <?php wp_architech_footer_logo(); ?>
+                                            </a>
                                         </figure>
                                     </div>
                                     <div class="widget-content">
-                                        <div class="text">Contra and layouts, in content of dummy text is nonsensical.typefaces of dummy text is appearance of different general the content of dummy text is nonsensical. typefaces of dummy text is nonsensical.</div>
+                                        <div class="text"><?php echo wp_kses_post( wp_architech_get_footer_description() ); ?></div>
                                     </div>
                                 </div>
                             </div>
@@ -55,15 +57,27 @@
                         <div class="row clearfix">
                             <div class="footer-column col-xl-5 col-lg-6 col-md-6 col-sm-12">
                                  <div class="footer-widget links-widget">
-                                    <h2 class="widget-title">Useful links</h2>
+                                    <h2 class="widget-title"><?php echo esc_html( wp_architech_get_footer_menu_title() ); ?></h2>
                                     <div class="widget-content">
-                                        <ul class="list">
-                                            <li><a href="about.html">About</a></li>
-                                            <li><a href="services.html">Services</a></li>
-                                            <li><a href="projects.html">Project</a></li>
-                                            <li><a href="blog-classic.html">News</a></li>
-                                            <li><a href="contact.html">Contact Us</a></li>
-                                        </ul>
+                                        <?php
+                                        $footer_menu_id = wp_architech_get_footer_menu();
+                                        if ( $footer_menu_id ) {
+                                            wp_nav_menu( array(
+                                                'menu' => $footer_menu_id,
+                                                'container' => false,
+                                                'menu_class' => 'list',
+                                                'fallback_cb' => false,
+                                            ) );
+                                        } else {
+                                            echo '<ul class="list">
+                                                <li><a href="' . esc_url( home_url( '/about/' ) ) . '">About</a></li>
+                                                <li><a href="' . esc_url( home_url( '/services/' ) ) . '">News</a></li>
+                                                <li><a href="' . esc_url( home_url( '/projects/' ) ) . '">Project</a></li>
+                                                <li><a href="' . esc_url( home_url( '/blog/' ) ) . '">News</a></li>
+                                                <li><a href="' . esc_url( home_url( '/contact/' ) ) . '">Contact Us</a></li>
+                                            </ul>';
+                                        }
+                                        ?>
                                     </div>
                                 </div>
                             </div>
@@ -113,16 +127,12 @@
                 <div class="inner-container clearfix">
                     <div class="social-links">
                         <ul class="social-icon-two">
-                            <li><a href="#"><i class="fa fa-facebook"></i></a></li>
-                            <li><a href="#"><i class="fa fa-twitter"></i></a></li>
-                            <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
-                            <li><a href="#"><i class="fa fa-instagram"></i></a></li>
-                            <li><a href="#"><i class="fa fa-whatsapp"></i></a></li>
+                            <?php wp_architech_social_links(); ?>
                         </ul>
                     </div>
                     
                     <div class="copyright-text">
-                        <p>Copyright &copy; <?php echo date('Y'); ?> <?php bloginfo('name'); ?>. All Rights Reserved.</p>
+                        <p><?php echo wp_kses_post( wp_architech_get_copyright_text() ); ?></p>
                     </div>
                 </div>
             </div>

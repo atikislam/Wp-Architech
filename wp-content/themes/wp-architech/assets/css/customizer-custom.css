@@ -1,0 +1,72 @@
+/**
+ * WP Architech Customizer Custom CSS
+ * Additional styles for customizer options and fixes
+ */
+
+/* Search Icon Centering Fix - Only fix alignment, keep original design */
+.search-box-btn {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    padding: 0 !important;
+}
+
+.search-box-btn .fa {
+    margin: 0 !important;
+}
+
+/* Logo Fallback Styling */
+.logo h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    line-height: 1.2;
+}
+
+.footer-logo h3 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 600;
+    color: #333;
+    line-height: 1.2;
+}
+
+
+
+/* Footer Widget Styling */
+.footer-widget .widget-title {
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.footer-widget .text {
+    line-height: 1.6;
+    color: #666;
+}
+
+
+
+/* Copyright Text */
+.copyright-text p {
+    margin: 0;
+    text-align: center;
+    color: #666;
+}
+
+
+
+/* Customizer Preview Enhancements */
+.customize-partial-edit-shortcut {
+    z-index: 9999;
+}
+
+/* Logo Image Responsiveness */
+.logo img,
+.footer-logo img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}

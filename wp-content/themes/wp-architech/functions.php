@@ -146,6 +146,7 @@ function wp_architech_scripts() {
 	wp_enqueue_style( 'responsive', get_template_directory_uri() . '/assets/css/responsive.css', array(), time(),'all' );
 	wp_enqueue_style( 'color-switcher-design', get_template_directory_uri() . '/assets/css/color-switcher-design.css', array(), time(),'all' );
 	wp_enqueue_style( 'default-themes', get_template_directory_uri() . '/assets/css/color-themes/default-theme.css', array(), time(),'all' );
+	wp_enqueue_style( 'customizer-custom', get_template_directory_uri() . '/assets/css/customizer-custom.css', array(), time(),'all' );
 
 	wp_enqueue_script( 'jquery', get_template_directory_uri() . '/assets/js/jquery.js', array(), time(), true );
 	wp_enqueue_script( 'bootstrap', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array(), time(), true );
@@ -184,10 +185,19 @@ require get_template_directory() . '/inc/template-functions.php';
  */
 require get_template_directory() . '/inc/customizer.php';
 
+
+
+/**
+ * Theme Helper Functions.
+ */
+require get_template_directory() . '/inc/theme-helpers.php';
+
 /**
  * Load Jetpack compatibility file.
  */
 if ( defined( 'JETPACK__VERSION' ) ) {
 	require get_template_directory() . '/inc/jetpack.php';
 }
+
+
 
