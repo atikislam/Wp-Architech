@@ -225,6 +225,21 @@ ul,li{
 	opacity: 1;
 }
 
+/* Ensure button text colors are properly applied even after being visited */
+.theme-btn.btn-style-one,
+.theme-btn.btn-style-one:visited,
+.theme-btn.btn-style-one:active,
+.theme-btn.btn-style-one:focus {
+	color: #ffffff !important;
+}
+
+.theme-btn.btn-style-one:hover,
+.theme-btn.btn-style-one:hover:visited,
+.theme-btn.btn-style-one:hover:active,
+.theme-btn.btn-style-one:hover:focus {
+	color: #ffffff !important;
+}
+
 
 
 /*Btn Style Two*/

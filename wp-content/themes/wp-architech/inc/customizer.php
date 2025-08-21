@@ -302,26 +302,45 @@ function wp_architech_customizer_css() {
 	
 	$css = "
 	<style type='text/css'>
-		.main-menu a,
-		.main-menu .navigation a {
+		/* Main menu items - only apply to direct menu items, not submenus */
+		.main-menu > .navigation > ul > li > a,
+		.main-menu .navigation > ul > li > a {
 			color: {$menu_text_color} !important;
 		}
 		
-		.main-menu a:hover,
-		.main-menu .navigation a:hover {
+		.main-menu > .navigation > ul > li > a:hover,
+		.main-menu .navigation > ul > li > a:hover {
 			color: {$menu_hover_color} !important;
 		}
 		
-		.main-menu .current-menu-item a,
-		.main-menu .current-menu-item a:hover,
-		.main-menu .current_page_item a,
-		.main-menu .current_page_item a:hover {
-			color: {$menu_active_color} !important;
-		}
-		
+		/* Active menu items */
+		.main-menu .current-menu-item > a,
+		.main-menu .current_page_item > a,
 		.main-menu .navigation .current-menu-item > a,
 		.main-menu .navigation .current_page_item > a {
 			color: {$menu_active_color} !important;
+		}
+		
+		/* Ensure submenus inherit colors but don't override display */
+		.main-menu .navigation ul ul a,
+		.main-menu .navigation .sub-menu a,
+		.main-menu .navigation .children a {
+			color: #fff !important;
+		}
+		
+		.main-menu .navigation ul ul a:hover,
+		.main-menu .navigation .sub-menu a:hover,
+		.main-menu .navigation .children a:hover {
+			color: #fff !important;
+		}
+		
+		/* Submenu display - ensure they're visible on hover */
+		.main-menu .navigation li:hover > ul,
+		.main-menu .navigation li:hover > .sub-menu,
+		.main-menu .navigation li:hover > .children {
+			display: block !important;
+			visibility: visible !important;
+			opacity: 1 !important;
 		}
 	</style>";
 	

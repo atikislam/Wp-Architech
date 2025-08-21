@@ -32,6 +32,128 @@
     line-height: 1.2;
 }
 
+/* Header Navigation - Professional Styling Based on Video Reference */
+
+/* Main menu container positioning */
+.main-menu .navigation {
+    position: relative;
+}
+
+/* Parent menu items - ensure relative positioning for submenu alignment */
+.main-menu .navigation > ul > li,
+.main-menu .navigation li {
+    position: relative !important;
+}
+
+/* Submenu base styling - #333333 background with transparency, no rounded corners */
+.main-menu .navigation ul ul,
+.main-menu .navigation .sub-menu,
+.main-menu .navigation .children {
+    display: none !important;
+    visibility: hidden !important;
+    opacity: 0 !important;
+    position: absolute !important;
+    top: 100% !important;
+    left: 0 !important;
+    z-index: 9999 !important;
+    background: rgba(51, 51, 51, 0.9) !important;
+    border: none !important;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3) !important;
+    min-width: 220px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    transition: all 0.3s ease !important;
+}
+
+/* Show submenu on hover */
+.main-menu .navigation li:hover > ul,
+.main-menu .navigation li:hover > .sub-menu,
+.main-menu .navigation li:hover > .children {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Submenu items styling */
+.main-menu .navigation ul ul a,
+.main-menu .navigation .sub-menu a,
+.main-menu .navigation .children a {
+    display: block !important;
+    padding: 12px 20px !important;
+    white-space: nowrap !important;
+    background: transparent !important;
+    border: none !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    transition: all 0.25s ease !important;
+    color: #333333 !important;
+    font-size: 14px !important;
+    line-height: 1.4 !important;
+    text-decoration: none !important;
+}
+
+/* Remove border from last submenu item */
+.main-menu .navigation ul ul a:last-child,
+.main-menu .navigation .sub-menu a:last-child,
+.main-menu .navigation .children a:last-child {
+    border-bottom: none !important;
+}
+
+/* Submenu item hover effect - pure black background */
+.main-menu .navigation ul ul a:hover,
+.main-menu .navigation .sub-menu a:hover,
+.main-menu .navigation .children a:hover {
+    background-color: #000000 !important;
+    color: #fff !important;
+    padding-left: 25px !important;
+}
+
+/* Second level submenu positioning */
+.main-menu .navigation ul ul ul {
+    top: 0 !important;
+    left: 100% !important;
+    margin-left: 0 !important;
+}
+
+/* Mobile dropdown support */
+@media (max-width: 768px) {
+    .main-menu .navigation ul ul,
+    .main-menu .navigation .sub-menu,
+    .main-menu .navigation .children {
+        position: static !important;
+        background: rgba(0, 0, 0, 0.6) !important;
+        margin-left: 20px !important;
+        box-shadow: none !important;
+    }
+    
+    .main-menu .navigation ul ul a,
+    .main-menu .navigation .sub-menu a,
+    .main-menu .navigation .children a {
+        padding: 8px 15px !important;
+        font-size: 13px !important;
+    }
+}
+
+/* Arrow indicators for items with submenus */
+.main-menu .navigation ul ul li.menu-item-has-children > a::after,
+.main-menu .navigation .sub-menu li.menu-item-has-children > a::after {
+    content: '›' !important;
+    position: absolute !important;
+    right: 15px !important;
+    top: 50% !important;
+    transform: translateY(-50%) !important;
+    color: rgba(255, 255, 255, 0.7) !important;
+    font-size: 16px !important;
+    font-weight: bold !important;
+    transition: all 0.3s ease !important;
+}
+
+.main-menu .navigation ul ul li.menu-item-has-children > a:hover::after,
+.main-menu .navigation .sub-menu li.menu-item-has-children > a:hover::after {
+    color: #fff !important;
+    right: 20px !important;
+}
+
 
 
 /* Footer Widget Styling */

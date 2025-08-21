@@ -1,69 +1,82 @@
 <?php /* Template Name: Home */ ?>
-    <!-- Bnner Section -->
+    <!-- Banner Section -->
      <?php get_header(); ?>
     <section class="banner-section">
         <div class="banner-carousel owl-carousel owl-theme">
-            <div class="slide-item" style="background-image: url(<?php echo get_template_directory_uri(); ?>/assets/images/main-slider/image-1.jpg);">
-                <div class="auto-container">
-                    <div class="content-box">
-                        <h2>Architecture is a <br> Visual Art.</h2>
-                        <div class="text">The buildings speak for themselves</div>
-                        <div class="link-box">
-                            <a href="about.html" class="theme-btn btn-style-one">Check Art</a>
+            <?php 
+            $slider_rows = get_field('slider_section');
+            
+            if($slider_rows && is_array($slider_rows)): 
+                foreach($slider_rows as $row): 
+                    $image = $row['image']['url']; // Fix: Access the URL from image array
+                    $title = $row['title'];
+                    $description = $row['description'];
+                    $button = $row['button'];
+            ?>
+                    <div class="slide-item" style="background-image: url(<?php echo esc_url($image); ?>);">
+                        <div class="auto-container">
+                            <div class="content-box">
+                                <h2><?php echo wp_kses_post($title); ?></h2>
+                                <div class="text"><?php echo esc_html($description); ?></div>
+                                <?php if($button): ?>
+                                    <div class="link-box">
+                                        <a href="<?php echo esc_url($button['url']); ?>" class="theme-btn btn-style-one"><?php echo esc_html($button['title']); ?></a>
+                                    </div>
+                                <?php endif; ?>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </div>
-
-            <div class="slide-item" style="background-image: url(<?php echo get_template_directory_uri(); ?>/assets/images/main-slider/image-2.jpg);">
-                <div class="auto-container">
-                    <div class="content-box">
-                        <h2>Architecture is a <br> Visual Art.</h2>
-                        <div class="text">The buildings speak for themselves</div>
-                        <div class="link-box">
-                            <a href="about.html" class="theme-btn btn-style-one">Check Art</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="slide-item" style="background-image: url(<?php echo get_template_directory_uri(); ?>/assets/images/main-slider/image-3.jpg);">
-                <div class="auto-container">
-                    <div class="content-box">
-                        <h2>Architecture is a <br> Visual Art.</h2>
-                        <div class="text">The buildings speak for themselves</div>
-                        <div class="link-box">
-                            <a href="about.html" class="theme-btn btn-style-one">Check Art</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <?php 
+                endforeach; 
+            endif; 
+            ?>
         </div>
 
+        <?php 
+        // Get CTA section data from ACF
+        $cta_section = get_field('cta_section');
+        if($cta_section): 
+        ?>
         <div class="bottom-box">
             <div class="auto-container clearfix">
                 <ul class="contact-info">
-                    <li><span>Phone :</span> (+84) 867-557-243</li>
-                    <li><span>EMAIL :</span> <a href="#">Support@yourdomain.com</a></li>
-                </ul>
+                    <?php if($cta_section['phone_number']): ?>
+                    <li><span>Phone :</span> <a href="tel:<?php echo esc_attr($cta_section['phone_number']); ?>"><?php echo esc_html($cta_section['phone_number']); ?></a></li>
+                    <?php endif; ?>
+                    
+                    <?php if($cta_section['email']): ?>
+                    <li><span>EMAIL :</span> <a href="mailto:<?php echo esc_attr($cta_section['email']); ?>"><?php echo esc_html($cta_section['email']); ?></a></li>
+                    <?php endif; ?>
+                </ul> 
             </div>
         </div>
+        <?php endif; ?>
     </section>
-    <!-- End Bnner Section -->
+    <!-- End Banner Section -->
 
+    <?php 
+    // Get About Us section data from ACF
+    $about_us_section = get_field('about_us_section');
+    if($about_us_section): 
+    ?>
     <!-- About Section -->
-    <section class="about-section" style="background-image: url(<?php echo get_template_directory_uri(); ?>/assets/images/background/1.jpg);">
+    <section class="about-section" style="background-image: url(<?php echo esc_url($about_us_section['bg_image']['url']); ?>);">
         <div class="auto-container">
             <div class="row no-gutters">
                 <!-- Image Column -->
                 <div class="image-column col-lg-6 col-md-12 col-sm-12">
                     <div class="inner-column">
                         <div class="title-box wow fadeInLeft" data-wow-delay='1200ms'>
-                            <h2>ABOUT <br> US</h2>
+                            <h2><?php echo wp_kses_post($about_us_section['section_title']); ?></h2>
                         </div>
                         <div class="image-box">
-                            <figure class="alphabet-img wow fadeInRight"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/alphabet-image.png" alt=""></figure>
-                            <figure class="image wow fadeInRight" data-wow-delay='600ms'><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/image-1.jpg" alt=""></figure>
+                            <?php if($about_us_section['first_image']): ?>
+                            <figure class="alphabet-img wow fadeInRight"><img src="<?php echo esc_url($about_us_section['first_image']['url']); ?>" alt="<?php echo esc_attr($about_us_section['first_image']['alt']); ?>"></figure>
+                            <?php endif; ?>
+                            
+                            <?php if($about_us_section['secound_image']): ?>
+                            <figure class="image wow fadeInRight" data-wow-delay='600ms'><img src="<?php echo esc_url($about_us_section['secound_image']['url']); ?>" alt="<?php echo esc_attr($about_us_section['secound_image']['alt']); ?>"></figure>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
@@ -72,224 +85,160 @@
                 <div class="content-column col-lg-6 col-md-12 col-sm-12">
                     <div class="inner-column wow fadeInLeft">
                         <div class="content-box">
+                            <?php if($about_us_section['title']): ?>
                             <div class="title">
-                                <h2>Any  Complexity <br>For Any Cat</h2>
+                                <h2><?php echo wp_kses_post($about_us_section['title']); ?></h2>
                             </div>
-                            <div class="text">Our company has many years experience and specializes in manufacturing, salling, serviceing and repairing cardan shafts (cardans) for various vehicles, technological equipment, tractor, special machinery and agricultural machinery of verious domestic and foreign manufacturers.</div>
-                            <div class="link-box"><a href="about.html" class="theme-btn btn-style-one">About Us</a></div>
+                            <?php endif; ?>
+                            
+                            <?php if($about_us_section['description']): ?>
+                            <div class="text"><?php echo wp_kses_post($about_us_section['description']); ?></div>
+                            <?php endif; ?>
+                            
+                            <?php if($about_us_section['button']): ?>
+                            <div class="link-box">
+                                <a href="<?php echo esc_url($about_us_section['button']['url']); ?>" class="theme-btn btn-style-one"><?php echo esc_html($about_us_section['button']['title']); ?></a>
+                            </div>
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <?php endif; ?>
     <!--End About Section -->
 
+    <?php 
+    // Get Specialization section data from ACF
+    $specialization_section = get_field('specialization_section');
+    if($specialization_section): 
+    ?>
     <!-- Services Section -->
     <section class="services-section">
         <div class="upper-box" style="background-image: url(<?php echo get_template_directory_uri(); ?>/assets/images/background/2.jpg);">
             <div class="auto-container">    
                 <div class="sec-title text-center light">
-                    <span class="float-text">Specialization</span>
-                    <h2>Our Specialization</h2>
+                    <?php if($specialization_section['float_tittle_']): ?>
+                    <span class="float-text"><?php echo esc_html($specialization_section['float_tittle_']); ?></span>
+                    <?php endif; ?>
+                    
+                    <?php if($specialization_section['section_title']): ?>
+                    <h2><?php echo wp_kses_post($specialization_section['section_title']); ?></h2>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
 
+        <?php if($specialization_section['specializations'] && is_array($specialization_section['specializations'])): ?>
         <div class="services-box">
             <div class="auto-container">
                 <div class="services-carousel owl-carousel owl-theme">
+                    <?php foreach($specialization_section['specializations'] as $specialization): ?>
                     <!-- Service Block -->
                     <div class="service-block">
                         <div class="inner-box">
                             <div class="image-box">
-                                <figure class="image"><a href="service-detail.html"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/service-1.jpg" alt=""></a></figure>
+                                <?php if($specialization['image']): ?>
+                                <figure class="image">
+                                    <?php if($specialization['button']): ?>
+                                    <a href="<?php echo esc_url($specialization['button']['url']); ?>">
+                                        <img src="<?php echo esc_url($specialization['image']['url']); ?>" alt="<?php echo esc_attr($specialization['image']['alt']); ?>">
+                                    </a>
+                                    <?php else: ?>
+                                    <img src="<?php echo esc_url($specialization['image']['url']); ?>" alt="<?php echo esc_attr($specialization['image']['alt']); ?>">
+                                    <?php endif; ?>
+                                </figure>
+                                <?php endif; ?>
                             </div>
                             <div class="lower-content">
-                                <h3><a href="service-detail.html">Architectural Design</a></h3>
-                                <div class="text">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they.</div>
+                                <?php if($specialization['title']): ?>
+                                <h3>
+                                    <?php if($specialization['button']): ?>
+                                    <a href="<?php echo esc_url($specialization['button']['url']); ?>"><?php echo esc_html($specialization['title']); ?></a>
+                                    <?php else: ?>
+                                    <?php echo esc_html($specialization['title']); ?>
+                                    <?php endif; ?>
+                                </h3>
+                                <?php endif; ?>
+                                
+                                <?php if($specialization['description']): ?>
+                                <div class="text"><?php echo wp_kses_post($specialization['description']); ?></div>
+                                <?php endif; ?>
+                                
+                                <?php if($specialization['button']): ?>
                                 <div class="link-box">
-                                    <a href="service-detail.html">Lorn More <i class="fa fa-long-arrow-right"></i></a>
+                                    <a href="<?php echo esc_url($specialization['button']['url']); ?>"><?php echo esc_html($specialization['button']['title']); ?> <i class="fa fa-long-arrow-right"></i></a>
                                 </div>
+                                <?php endif; ?>
                             </div>
                         </div>
                     </div>
-
-                    <!-- Service Block -->
-                    <div class="service-block">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><a href="service-detail.html"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/service-2.jpg" alt=""></a></figure>
-                            </div>
-                            <div class="lower-content">
-                                <h3><a href="service-detail.html">Interior Design</a></h3>
-                                <div class="text">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they.</div>
-                                <div class="link-box">
-                                    <a href="service-detail.html">Lorn More <i class="fa fa-long-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Block -->
-                    <div class="service-block">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><a href="service-detail.html"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/service-3.jpg" alt=""></a></figure>
-                            </div>
-                            <div class="lower-content">
-                                <h3><a href="service-detail.html">Corporate Design</a></h3>
-                                <div class="text">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they.</div>
-                                <div class="link-box">
-                                    <a href="service-detail.html">Lorn More <i class="fa fa-long-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Block -->
-                    <div class="service-block">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><a href="service-detail.html"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/service-1.jpg" alt=""></a></figure>
-                            </div>
-                            <div class="lower-content">
-                                <h3><a href="service-detail.html">Architectural Design</a></h3>
-                                <div class="text">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they.</div>
-                                <div class="link-box">
-                                    <a href="service-detail.html">Lorn More <i class="fa fa-long-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Block -->
-                    <div class="service-block">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><a href="service-detail.html"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/service-2.jpg" alt=""></a></figure>
-                            </div>
-                            <div class="lower-content">
-                                <h3><a href="service-detail.html">Interior Design</a></h3>
-                                <div class="text">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they.</div>
-                                <div class="link-box">
-                                    <a href="service-detail.html">Lorn More <i class="fa fa-long-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Block -->
-                    <div class="service-block">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><a href="service-detail.html"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/service-3.jpg" alt=""></a></figure>
-                            </div>
-                            <div class="lower-content">
-                                <h3><a href="service-detail.html">Corporate Design</a></h3>
-                                <div class="text">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they.</div>
-                                <div class="link-box">
-                                    <a href="service-detail.html">Lorn More <i class="fa fa-long-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Block -->
-                    <div class="service-block">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><a href="service-detail.html"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/service-1.jpg" alt=""></a></figure>
-                            </div>
-                            <div class="lower-content">
-                                <h3><a href="service-detail.html">Architectural Design</a></h3>
-                                <div class="text">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they.</div>
-                                <div class="link-box">
-                                    <a href="service-detail.html">Lorn More <i class="fa fa-long-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Block -->
-                    <div class="service-block">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><a href="service-detail.html"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/service-2.jpg" alt=""></a></figure>
-                            </div>
-                            <div class="lower-content">
-                                <h3><a href="service-detail.html">Interior Design</a></h3>
-                                <div class="text">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they.</div>
-                                <div class="link-box">
-                                    <a href="service-detail.html">Lorn More <i class="fa fa-long-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Service Block -->
-                    <div class="service-block">
-                        <div class="inner-box">
-                            <div class="image-box">
-                                <figure class="image"><a href="service-detail.html"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/service-3.jpg" alt=""></a></figure>
-                            </div>
-                            <div class="lower-content">
-                                <h3><a href="service-detail.html">Corporate Design</a></h3>
-                                <div class="text">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. Separated they.</div>
-                                <div class="link-box">
-                                    <a href="service-detail.html">Lorn More <i class="fa fa-long-arrow-right"></i></a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
+        <?php endif; ?>
     </section>
+    <?php endif; ?>
     <!--End Services Section -->
 
+    <?php 
+    // Get Counter section data from ACF
+    $counter_section = get_field('counter_secction');
+    if($counter_section): 
+    ?>
     <!-- Fun Fact Section -->
     <section class="fun-fact-section">
         <div class="outer-box" style="background-image: url(<?php echo get_template_directory_uri(); ?>/assets/images/background/3.jpg);">
             <div class="auto-container">
                 <div class="fact-counter">
                     <div class="row">
+                        <?php if($counter_section['counter_one']): ?>
                         <!--Column-->
                         <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp">
                             <div class="count-box">
-                                <div class="count"><span class="count-text" data-speed="5000" data-stop="14">0</span></div>
-                                <h4 class="counter-title">Years of <br>Experience</h4>
+                                <div class="count"><span class="count-text" data-speed="5000" data-stop="<?php echo esc_attr($counter_section['counter_one']['counter_number']); ?>">0</span></div>
+                                <h4 class="counter-title"><?php echo wp_kses_post($counter_section['counter_one']['counter_text']); ?></h4>
                             </div>
                         </div>
+                        <?php endif; ?>
 
+                        <?php if($counter_section['counter_two']): ?>
                         <!--Column-->
                         <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="400ms">
                             <div class="count-box">
-                                <div class="count"><span class="count-text" data-speed="5000" data-stop="237">0</span></div>
-                                <h4 class="counter-title">Project <br>Taken</h4>
+                                <div class="count"><span class="count-text" data-speed="5000" data-stop="<?php echo esc_attr($counter_section['counter_two']['counter_number']); ?>">0</span></div>
+                                <h4 class="counter-title"><?php echo wp_kses_post($counter_section['counter_two']['counter_text']); ?></h4>
                             </div>
                         </div>
+                        <?php endif; ?>
 
+                        <?php if($counter_section['counter_three']): ?>
                         <!--Column-->
                         <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="800ms">
                             <div class="count-box">
-                                <div class="count"><span class="count-text" data-speed="5000" data-stop="11">0</span>K</div>
-                                <h4 class="counter-title">Twitter <br> Follower</h4>
+                                <div class="count"><span class="count-text" data-speed="5000" data-stop="<?php echo esc_attr($counter_section['counter_three']['counter_number']); ?>">0</span></div>
+                                <h4 class="counter-title"><?php echo wp_kses_post($counter_section['counter_three']['counter_text']); ?></h4>
                             </div>
                         </div>
+                        <?php endif; ?>
 
+                        <?php if($counter_section['counter_four']): ?>
                         <!--Column-->
                         <div class="counter-column col-lg-3 col-md-6 col-sm-12 wow fadeInUp" data-wow-delay="1200ms">
                             <div class="count-box">
-                                <div class="count"><span class="count-text" data-speed="5000" data-stop="12">0</span></div>
-                                <h4 class="counter-title">Awards<br>won</h4>
+                                <div class="count"><span class="count-text" data-speed="5000" data-stop="<?php echo esc_attr($counter_section['counter_four']['counter_number']); ?>">0</span></div>
+                                <h4 class="counter-title"><?php echo wp_kses_post($counter_section['counter_four']['counter_text']); ?></h4>
                             </div>
                         </div>
+                        <?php endif; ?>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+    <?php endif; ?>
     <!--End Fun Fact Section -->
 
     <!-- Project Section -->
@@ -355,7 +304,7 @@
                         <div class="overlay-box">
                             <h4><a href="project-detail.html">Laxury Home <br>Project</a></h4>
                             <div class="btn-box">
-                                <a href="images/gallery/4.jpg" class="lightbox-image" data-fancybox="gallery"><i class="fa fa-search"></i></a>
+                                <a href="<?php echo get_template_directory_uri(); ?>/assets/images/gallery/4.jpg" class="lightbox-image" data-fancybox="gallery"><i class="fa fa-search"></i></a>
                                 <a href="project-detail.html"><i class="fa fa-external-link"></i></a>
                             </div>
                             <span class="tag">Architecture</span>
@@ -366,11 +315,11 @@
                 <!-- Project Block -->
                 <div class="project-block">
                     <div class="image-box">
-                        <figure class="image"><img src="images/gallery/5.jpg" alt=""></figure>
+                        <figure class="image"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/gallery/5.jpg" alt=""></figure>
                         <div class="overlay-box">
                             <h4><a href="project-detail.html">Laxury Home <br>Project</a></h4>
                             <div class="btn-box">
-                                <a href="images/gallery/5.jpg" class="lightbox-image" data-fancybox="gallery"><i class="fa fa-search"></i></a>
+                                <a href="<?php echo get_template_directory_uri(); ?>/assets/images/gallery/5.jpg" class="lightbox-image" data-fancybox="gallery"><i class="fa fa-search"></i></a>
                                 <a href="project-detail.html"><i class="fa fa-external-link"></i></a>
                             </div>
                             <span class="tag">Architecture</span>
@@ -381,11 +330,11 @@
                 <!-- Project Block -->
                 <div class="project-block">
                     <div class="image-box">
-                        <figure class="image"><img src="images/gallery/3.jpg" alt=""></figure>
+                        <figure class="image"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/gallery/3.jpg" alt=""></figure>
                         <div class="overlay-box">
                             <h4><a href="project-detail.html">Laxury Home <br>Project</a></h4>
                             <div class="btn-box">
-                                <a href="images/gallery/3.jpg" class="lightbox-image" data-fancybox="gallery"><i class="fa fa-search"></i></a>
+                                <a href="<?php echo get_template_directory_uri(); ?>/assets/images/gallery/3.jpg" class="lightbox-image" data-fancybox="gallery"><i class="fa fa-search"></i></a>
                                 <a href="project-detail.html"><i class="fa fa-external-link"></i></a>
                             </div>
                             <span class="tag">Architecture</span>
@@ -465,6 +414,11 @@
     </section>
     <!--End Team Section -->
 
+    <?php 
+    // Get Testimonials section data from ACF
+    $testimonials_section = get_field('testimonials_section');
+    if($testimonials_section): 
+    ?>
     <!-- Testimonial Section -->
     <section class="testimonial-section">
         <div class="outer-container clearfix">
@@ -473,56 +427,53 @@
                 <div class="inner-column">
                     <div class="sec-title">
                         <span class="float-text">testimonial</span>
-                        <h2>What Client Says</h2>
+                        <?php if($testimonials_section['section_title_']): ?>
+                        <h2><?php echo wp_kses_post($testimonials_section['section_title_']); ?></h2>
+                        <?php endif; ?>
+                        
+                        <?php if($testimonials_section['description']): ?>
+                        <div class="text"><?php echo wp_kses_post($testimonials_section['description']); ?></div>
+                        <?php endif; ?>
                     </div>
-                    <div class="text">Looking at its layout. The point of using very profectly is that it has a more-or-less normal distribution of letters, as opposed</div>
                 </div>
             </div>
 
             <!-- Testimonial Column -->
             <div class="testimonial-column clearfix" style="background-image: url(<?php echo get_template_directory_uri(); ?>/assets/images/background/4.jpg);">
                 <div class="inner-column">
+                    <?php if($testimonials_section['testimonials_slider'] && is_array($testimonials_section['testimonials_slider'])): ?>
                     <div class="testimonial-carousel owl-carousel owl-theme">
+                        <?php foreach($testimonials_section['testimonials_slider'] as $testimonial): ?>
                         <!-- Testimonial Block -->
                         <div class="testimonial-block">
                             <div class="inner-box">
-                                <div class="image-box"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/thumb-1.jpg" alt=""></div>
-                                <div class="text">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot.</div>
+                                <?php if($testimonial['image']): ?>
+                                <div class="image-box"><img src="<?php echo esc_url($testimonial['image']['url']); ?>" alt="<?php echo esc_attr($testimonial['image']['alt']); ?>"></div>
+                                <?php endif; ?>
+                                
+                                <?php if($testimonial['description']): ?>
+                                <div class="text"><?php echo wp_kses_post($testimonial['description']); ?></div>
+                                <?php endif; ?>
+                                
                                 <div class="info-box">
-                                    <h4 class="name">Jane Smith</h4>
-                                    <span class="designation">CEO, InDesign</span>
+                                    <?php if($testimonial['title']): ?>
+                                    <h4 class="name"><?php echo esc_html($testimonial['title']); ?></h4>
+                                    <?php endif; ?>
+                                    
+                                    <?php if($testimonial['possition']): ?>
+                                    <span class="designation"><?php echo esc_html($testimonial['possition']); ?></span>
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
-
-                        <!-- Testimonial Block -->
-                        <div class="testimonial-block">
-                            <div class="inner-box">
-                                <div class="image-box"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/thumb-1.jpg" alt=""></div>
-                                <div class="text">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot.</div>
-                                <div class="info-box">
-                                    <h4 class="name">Jane Smith</h4>
-                                    <span class="designation">CEO, InDesign</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Testimonial Block -->
-                        <div class="testimonial-block">
-                            <div class="inner-box">
-                                <div class="image-box"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/resource/thumb-1.jpg" alt=""></div>
-                                <div class="text">A wonderful serenity has taken possession of my entire soul, like these sweet mornings of spring which I enjoy with my whole heart. I am alone, and feel the charm of existence in this spot.</div>
-                                <div class="info-box">
-                                    <h4 class="name">Jane Smith</h4>
-                                    <span class="designation">CEO, InDesign</span>
-                                </div>
-                            </div>
-                        </div>
+                        <?php endforeach; ?>
                     </div>
+                    <?php endif; ?>
                 </div>
             </div>
         </div>
     </section>
+    <?php endif; ?>
     <!--End Testimonial Section -->
 
     <!-- News Section -->
@@ -588,25 +539,36 @@
     </section>
     <!--End News Section -->
 
+    <?php 
+    // Get Client section data from ACF
+    $client_section = get_field('client_section');
+    if($client_section && is_array($client_section)): 
+    ?>
     <!--Clients Section-->
     <section class="clients-section">
         <div class="inner-container">
             <div class="sponsors-outer">
                 <!--Sponsors Carousel-->
                 <ul class="sponsors-carousel owl-carousel owl-theme">
-                    <li class="slide-item"><figure class="image-box"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/clients/1.png" alt=""></a></figure></li>
-                    <li class="slide-item"><figure class="image-box"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/clients/2.png" alt=""></a></figure></li>
-                    <li class="slide-item"><figure class="image-box"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/clients/3.png" alt=""></a></figure></li>
-                    <li class="slide-item"><figure class="image-box"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/clients/4.png" alt=""></a></figure></li>
-                    <li class="slide-item"><figure class="image-box"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/clients/5.png" alt=""></a></figure></li>
-                    <li class="slide-item"><figure class="image-box"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/clients/1.png" alt=""></a></figure></li>
-                    <li class="slide-item"><figure class="image-box"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/clients/2.png" alt=""></a></figure></li>
-                    <li class="slide-item"><figure class="image-box"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/clients/3.png" alt=""></a></figure></li>
-                    <li class="slide-item"><figure class="image-box"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/clients/4.png" alt=""></a></figure></li>
-                    <li class="slide-item"><figure class="image-box"><a href="#"><img src="<?php echo get_template_directory_uri(); ?>/assets/images/clients/5.png" alt=""></a></figure></li>
+                    <?php foreach($client_section as $client): ?>
+                    <li class="slide-item">
+                        <figure class="image-box">
+                            <?php if($client['logo']): ?>
+                                <?php if($client['logo_link'] && is_array($client['logo_link']) && !empty($client['logo_link']['url'])): ?>
+                                <a href="<?php echo esc_url($client['logo_link']['url']); ?>">
+                                    <img src="<?php echo esc_url($client['logo']['url']); ?>" alt="<?php echo esc_attr($client['logo']['alt']); ?>">
+                                </a>
+                                <?php else: ?>
+                                <img src="<?php echo esc_url($client['logo']['url']); ?>" alt="<?php echo esc_attr($client['logo']['alt']); ?>">
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </figure>
+                    </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>
         </div>
     </section>
+    <?php endif; ?>
     <!--End Clients Section-->
     <?php get_footer(); ?>
